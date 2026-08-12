@@ -5,28 +5,66 @@
         "Membership Status": {
           "type": "Picklist",
           "data_classification": "Internal Business Data",
+          "owner": "Salesforce Administrator",
           "dependencies": [
             {
               "system": "Power Automate",
-              "component": "Membership Renewal Workflow",
-              "impact": "Uses Membership Status to determine when renewal communications are sent"
+              "component": "Membership Renewal Workflow"
             },
             {
               "system": "Power BI",
-              "component": "Membership Dashboard",
-              "impact": "Uses Membership Status for membership reporting and filtering"
+              "component": "Membership Dashboard"
             },
             {
               "system": "Power Apps",
-              "component": "Membership Administration App",
-              "impact": "Displays and updates membership information for staff"
+              "component": "Membership Administration App"
             }
-          ],
-          "owners": [
-            "Salesforce Administrator",
-            "Power Platform Administrator",
-            "Reporting Owner"
           ]
+        }
+      }
+    },
+
+    "Power Automate": {
+      "components": {
+        "Membership Renewal Workflow": {
+          "type": "Cloud Flow",
+          "owner": "Power Platform Administrator",
+          "criticality": "High",
+          "purpose": "Sends renewal communications based on membership information",
+          "uses_fields": [
+            "Salesforce.Membership Status"
+          ],
+          "human_review_required": true
+        }
+      }
+    },
+
+    "Power BI": {
+      "components": {
+        "Membership Dashboard": {
+          "type": "Semantic Model and Report",
+          "owner": "Reporting Owner",
+          "criticality": "Medium",
+          "purpose": "Reports membership counts and status trends",
+          "uses_fields": [
+            "Salesforce.Membership Status"
+          ],
+          "human_review_required": true
+        }
+      }
+    },
+
+    "Power Apps": {
+      "components": {
+        "Membership Administration App": {
+          "type": "Canvas App",
+          "owner": "Power Platform Administrator",
+          "criticality": "High",
+          "purpose": "Allows staff to view and manage membership information",
+          "uses_fields": [
+            "Salesforce.Membership Status"
+          ],
+          "human_review_required": true
         }
       }
     }
