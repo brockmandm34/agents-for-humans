@@ -1,0 +1,34 @@
+{
+  "systems": {
+    "Salesforce": {
+      "components": {
+        "Membership Status": {
+          "type": "Picklist",
+          "data_classification": "Internal Business Data",
+          "dependencies": [
+            {
+              "system": "Power Automate",
+              "component": "Membership Renewal Workflow",
+              "impact": "Triggers renewal communications when Membership Status changes"
+            },
+            {
+              "system": "Power BI",
+              "component": "Membership Dashboard",
+              "impact": "Uses Membership Status for filtering and reporting"
+            },
+            {
+              "system": "Zapier",
+              "component": "Community Access Sync",
+              "impact": "Uses Membership Status to determine community access"
+            }
+          ],
+          "owners": [
+            "CRM Administrator",
+            "Automation Team",
+            "Reporting Team"
+          ]
+        }
+      }
+    }
+  }
+}
