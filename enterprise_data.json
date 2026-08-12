@@ -9,23 +9,23 @@
             {
               "system": "Power Automate",
               "component": "Membership Renewal Workflow",
-              "impact": "Triggers renewal communications when Membership Status changes"
+              "impact": "Uses Membership Status to determine when renewal communications are sent"
             },
             {
               "system": "Power BI",
               "component": "Membership Dashboard",
-              "impact": "Uses Membership Status for filtering and reporting"
+              "impact": "Uses Membership Status for membership reporting and filtering"
             },
             {
-              "system": "Zapier",
-              "component": "Community Access Sync",
-              "impact": "Uses Membership Status to determine community access"
+              "system": "Power Apps",
+              "component": "Membership Administration App",
+              "impact": "Displays and updates membership information for staff"
             }
           ],
           "owners": [
-            "CRM Administrator",
-            "Automation Team",
-            "Reporting Team"
+            "Salesforce Administrator",
+            "Power Platform Administrator",
+            "Reporting Owner"
           ]
         }
       }
