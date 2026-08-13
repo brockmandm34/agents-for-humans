@@ -568,21 +568,28 @@ constitute approval to deploy.
 # DEMO CHANGE REQUEST
 # =========================================================
 
-agent("""
-We are considering changing the following
-Salesforce Contact field:
+def analyze_change(
+    object_name: str,
+    field_api_name: str,
+    proposed_change: str
+) -> str:
+    """
+    Run a change-impact investigation and return
+    the final agent response as text.
+    """
 
-Field Label:
-Membership Status
+    prompt = f"""
+We are considering a change to the following
+Salesforce field:
+
+Object:
+{object_name}
 
 API Name:
-Membership_Status__c
+{field_api_name}
 
-Current Design:
-Picklist
-
-Proposed Design:
-Calculated Field
+Proposed Change:
+{proposed_change}
 
 Investigate the potential cross-platform blast
 radius of this proposed change.
@@ -607,4 +614,21 @@ is named:
 Membership Status
 
 Do not approve or deploy the proposed change.
-""")
+"""
+
+    result = agent(prompt)
+
+    return str(result)
+
+
+if __name__ == "__main__":
+    print(
+        analyze_change(
+            object_name="Contact",
+            field_api_name="Membership_Status__c",
+            proposed_change=(
+                "Change Membership Status from a "
+                "picklist to a calculated field."
+            )
+        )
+    )
