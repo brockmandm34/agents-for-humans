@@ -136,6 +136,8 @@ The prototype currently supports:
 * Custom Python tools using Strands
 * External enterprise dependency data stored separately from the agent
 * Salesforce component lookup
+* Live Salesforce field metadata via Salesforce CLI
+* Streamlit demo interface
 * Cross-platform dependency discovery
 * Power Automate impact identification
 * Power BI impact identification
@@ -202,13 +204,50 @@ High-risk or ambiguous findings are escalated for human review.
 * **Git**
 * **GitHub**
 
+## Setup
+
+### Prerequisites
+
+* Python 3.10+
+* AWS credentials configured for Amazon Bedrock
+* [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) (optional, for live metadata)
+* A Salesforce Developer Edition org authenticated as `hackathon` (optional)
+
+### Install
+
+```bash
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+### Run the CLI demo
+
+```bash
+python agent.py
+```
+
+### Run the Streamlit interface
+
+```bash
+streamlit run app.py
+```
+
 ## Current Project Structure
 
 ```text
 agents-for-humans/
 |
 |-- agent.py
+|-- app.py
 |-- enterprise_data.json
+|-- requirements.txt
 |-- README.md
 |-- LICENSE
 |-- .gitignore
@@ -291,15 +330,15 @@ in a non-production environment before deployment.
 
 ### Phase 2 — Multi-Step Investigation
 
-* [ ] Add Salesforce metadata tool
+* [x] Add Salesforce metadata tool
 * [ ] Add Power Automate investigation tool
 * [ ] Add Power BI investigation tool
 * [ ] Add Power Apps investigation tool
-* [ ] Allow the agent to choose investigation paths dynamically
+* [x] Allow the agent to choose investigation paths dynamically
 
 ### Phase 3 — Risk Intelligence
 
-* [ ] Separate known evidence from inferred risk
+* [x] Separate known evidence from inferred risk
 * [ ] Add structured risk scoring
 * [ ] Detect missing owners and undocumented dependencies
 * [ ] Generate recommended validation plans
@@ -308,10 +347,10 @@ in a non-production environment before deployment.
 ### Phase 4 — Deployment and Demo
 
 * [ ] Deploy using AWS AgentCore
-* [ ] Build demo interface
+* [x] Build demo interface
 * [ ] Create architecture diagram
 * [ ] Record hackathon demonstration
-* [ ] Publish final repository documentation
+* [x] Publish final repository documentation
 
 ## License
 

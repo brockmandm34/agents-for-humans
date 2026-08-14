@@ -1,8 +1,11 @@
 import json
 import shutil
 import subprocess
+from pathlib import Path
 
 from strands import Agent, tool
+
+DATA_FILE = Path(__file__).parent / "enterprise_data.json"
 
 
 # =========================================================
@@ -15,11 +18,33 @@ def load_enterprise_data():
     """
 
     with open(
-        "enterprise_data.json",
+        DATA_FILE,
         "r",
         encoding="utf-8"
     ) as file:
         return json.load(file)
+
+
+def find_catalog_component(
+    system_name: str,
+    field_api_name: str
+) -> str | None:
+    """
+    Resolve a catalog component name from a field API name.
+    """
+
+    components = (
+        load_enterprise_data()
+        .get("systems", {})
+        .get(system_name, {})
+        .get("components", {})
+    )
+
+    for component_name, component in components.items():
+        if component.get("api_name") == field_api_name:
+            return component_name
+
+    return None
 
 
 # =========================================================
@@ -571,12 +596,39 @@ constitute approval to deploy.
 def analyze_change(
     object_name: str,
     field_api_name: str,
-    proposed_change: str
+    proposed_change: str,
+    system_name: str = "Salesforce",
+    catalog_component_name: str | None = None
 ) -> str:
     """
     Run a change-impact investigation and return
     the final agent response as text.
     """
+
+    catalog_name = (
+        catalog_component_name
+        or find_catalog_component(
+            system_name,
+            field_api_name
+        )
+    )
+
+    if catalog_name:
+        catalog_instruction = (
+            f"For the enterprise dependency catalog, "
+            f"look up the component named:\n\n"
+            f"{catalog_name}\n\n"
+            f"in system:\n\n"
+            f"{system_name}"
+        )
+    else:
+        catalog_instruction = (
+            f"No catalog mapping was found for "
+            f"{field_api_name} in {system_name}. "
+            f"Use get_system_dependencies with the "
+            f"best matching component name if one "
+            f"exists in the catalog."
+        )
 
     prompt = f"""
 We are considering a change to the following
@@ -608,10 +660,7 @@ Investigate:
 - required human review
 - recommended testing before deployment
 
-For the enterprise dependency catalog, the component
-is named:
-
-Membership Status
+{catalog_instruction}
 
 Do not approve or deploy the proposed change.
 """

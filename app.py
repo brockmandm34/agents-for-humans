@@ -95,7 +95,8 @@ if submitted:
             assessment = analyze_change(
                 object_name=object_name,
                 field_api_name=component_name,
-                proposed_change=proposed_change
+                proposed_change=proposed_change,
+                system_name=system
             )
 
             st.divider()
