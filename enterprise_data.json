@@ -3,6 +3,7 @@
     "Salesforce": {
       "components": {
         "Membership Status": {
+          "api_name": "Membership_Status__c",
           "type": "Picklist",
           "data_classification": "Internal Business Data",
           "owner": "Salesforce Administrator",
